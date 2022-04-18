@@ -1,0 +1,9 @@
+#reactive-form > input.ng-invalid {
+  border: 5px solid red;
+}
+#reactive-form > input.ng-valid {
+  border: 5px solid green;
+}
+#reactive-form > input.ng-untouched {
+  border: 1px solid black;
+}

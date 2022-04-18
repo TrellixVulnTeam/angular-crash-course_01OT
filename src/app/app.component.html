@@ -1,0 +1,237 @@
+<!--Passing value from parent to child component-->
+<app-header
+  [title]="headerText"
+  (parentComponentprop)="parentComponent($event)"
+></app-header>
+<h1>Hello World</h1>
+
+<!--Interpolation-->
+{{ appName }}
+{{ getName() }}
+Name:{{ obj.name }}, Age:{{ obj.age }}
+{{ arr[0] }}
+{{ arr.length }}
+<br />
+{{ a * b }}
+{{ siteUrl }}
+<app-user-list></app-user-list>
+<app-login></app-login>
+<app-signup></app-signup>
+
+<!--Functions-->
+<button type="button" (click)="buttonClicked('Vikas')">Click Me!!!</button>
+<br />
+<br />
+
+<!--Events-->
+<button (click)="myEvent('This is click event')">Click me(Event)!!!!</button>
+<br />
+<br />
+<input type="text" #inputbox (keyup)="myEvent(inputbox.value)" />
+<br />
+<br />
+<input
+  type="text"
+  placeholder="Press space or enter to submit"
+  #inputboxenter
+  (keyup.enter)="myEvent(inputboxenter.value)"
+  (keyup.space)="myEvent(inputboxenter.value)"
+/>
+<br />
+<br />
+<input type="text" #inputboxblur (blur)="myEvent(inputboxblur.value)" />
+<br />
+<br />
+<div style="background-color: blueviolet" (mouseover)="myEvent('Mouse Over')">
+  Mouse Over event
+</div>
+<br />
+<br />
+<div style="background-color: green" (mouseout)="myEvent('Mouse Out')">
+  Mouse Out event
+</div>
+<br />
+<br />
+
+<!--Passing input text value to function on button click-->
+<input type="text" #textInp (keyup)="textInputVal($event)" />
+<button (click)="textInputValButton(textInp.value)">
+  Click to submit input value
+</button>
+<h1>{{ enteredValue }}</h1>
+
+<br />
+<br />
+<!--One way data binding-->
+<input [value]="oneWayPropertyBindingValue" type="text" />
+<br />
+<br />
+
+<!--Two way data binding. Import FormsModule from angular/forms to use ngModel-->
+<input [(ngModel)]="data" type="text" />
+<h1>{{ data }}</h1>
+<br />
+<br />
+
+<!--*ngIf with else-->
+<div *ngIf="disabled; else elseDiv">If block</div>
+<ng-template #elseDiv>
+  <div>Else block</div>
+</ng-template>
+
+<!--*ngSwitch-->
+<div [ngSwitch]="color">
+  <div *ngSwitchCase="'red'">Red</div>
+  <div *ngSwitchCase="'green'">Green</div>
+  <div *ngSwitchDefault>Default</div>
+</div>
+
+<!--*ngFor-->
+<div *ngFor="let item of dataForLoop">
+  <h1>{{ item }}</h1>
+</div>
+<div *ngFor="let item of objectArrForLoop">
+  <h1>Name:{{ item.name }}</h1>
+  <h1>Age:{{ item.age }}</h1>
+</div>
+
+<!--Basic Forms-->
+<form #simpleForm="ngForm" (ngSubmit)="getUserValues(simpleForm.value)">
+  <input
+    type="text"
+    required
+    ngModel
+    #username="ngModel"
+    name="username"
+    placeholder="enter name"
+  />
+  <span style="color: red" *ngIf="username.invalid && username.touched"
+    >Username is required</span
+  >
+  <br /><br />
+  <input
+    type="text"
+    ngModel
+    required
+    #age="ngModel"
+    name="age"
+    placeholder="enter age"
+  />
+  <span style="color: red" *ngIf="age.invalid && age.touched"
+    >Age is required</span
+  >
+  <br /><br />
+  <input
+    type="text"
+    ngModel
+    required
+    #address="ngModel"
+    name="address"
+    placeholder="enter address"
+  />
+  <span style="color: red" *ngIf="address.invalid && address.touched"
+    >Address is required</span
+  >
+  <br /><br />
+  <button [disabled]="!simpleForm.valid">Get User Values</button>
+</form>
+<br />
+<br />
+
+<!--Dynamic styling-->
+<h1 [style.color]="colorRed ? 'red' : 'green'">Colored</h1>
+
+<!--Reusable components-->
+<div *ngFor="let item of users">
+  <app-footer [founders]="item"></app-footer>
+</div>
+<br />
+<br />
+
+<!--Custom Pipes with argument MB-->
+<h1>{{ size | filesize: "MB" }}</h1>
+
+<!--App level Routing && Module routing(lazy routing) -->
+<button [routerLink]="['/users/login']" routerLinkActive="router-link-active">
+  Login
+</button>
+<button [routerLink]="['/admin']" routerLinkActive="router-link-active">
+  Admin
+</button>
+<button [routerLink]="['/about']" routerLinkActive="router-link-active">
+  About
+</button>
+<button [routerLink]="['/users/signup']" routerLinkActive="router-link-active">
+  Sign Up
+</button>
+<router-outlet></router-outlet>
+<br />
+<br />
+
+<!--Custom directive-->
+<h1 appCutomStyle>This is changed by custom directive</h1>
+
+<!--API data from Service-->
+<table border="1">
+  <thead>
+    <th>id</th>
+    <th>userId</th>
+    <th>title</th>
+    <th>completed</th>
+  </thead>
+  <tr *ngFor="let user of usersList">
+    <td>{{ user.id }}</td>
+    <td>{{ user.userId }}</td>
+    <td>{{ user.title }}</td>
+    <td>{{ user.completed }}</td>
+  </tr>
+</table>
+
+<!--Lazy component loading-->
+<button (click)="lazyLoadComponent('one')">Load Component One</button>
+<button (click)="lazyLoadComponent('two')">Load Component Two</button>
+
+<br />
+<br />
+
+<!--Reactive forms-->
+<form
+  id="reactive-form"
+  [formGroup]="reactiveForm"
+  (ngSubmit)="onSubmitReactiveForm()"
+>
+  <input
+    type="text"
+    ngModel
+    name="username"
+    formControlName="username"
+    placeholder="enter name"
+  />
+  <span
+    *ngIf="
+      reactiveForm.controls['username'].errors &&
+      reactiveForm.controls['username'].touched
+        ? ['required']
+        : ''
+    "
+    >Username is required</span
+  >
+  <br /><br />
+  <input
+    type="text"
+    ngModel
+    name="age"
+    formControlName="age"
+    placeholder="enter age"
+  />
+  <br /><br />
+  <input
+    type="text"
+    ngModel
+    name="address"
+    formControlName="address"
+    placeholder="enter address"
+  />
+  <br /><br />
+  <button [disabled]="!reactiveForm.valid">Get User Values</button>
+</form>
